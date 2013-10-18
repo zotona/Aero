@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 template="./../../../WEB-INF/plantillas/maestros.xhtml">
+
+    <ui:define name="cabecera">
+        #{etiquetas.aerolineasListaCabecera}
+    </ui:define>
+
+    <ui:define name="cuerpo">
+        <h:form>
+            <h:panelGroup id="mensajes" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:outputText value="#{etiquetas.filtro}: "/>
+            <h:inputText id="filtro" value="#{aerolineas.filtro}" title="#{etiquetas.aerolineasListaFiltroAyuda}" required="true" requiredMessage="#{etiquetas.filtroObligatorio}"/>
+            <h:commandButton action="#{aerolineas.filtrar()}" value="#{etiquetas.accionFiltrar}">
+                <f:ajax render="@form" execute="filtro"/>
+            </h:commandButton><br/>
+            <h:outputText value="#{etiquetas.sinDatosParaFiltro}" rendered="#{aerolineas.aerolineas.rowCount == 0}"/>
+            <h:dataTable value="#{aerolineas.aerolineas}" var="aerolinea" rendered="#{aerolineas.aerolineas.rowCount > 0}">
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{etiquetas.aerolineaCodAerolinea}"/>
+                    </f:facet>
+                    <h:outputText value="#{aerolinea.codAerolinea}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{etiquetas.aerolineaNombre}"/>
+                    </f:facet>
+                    <h:outputText value="#{aerolinea.nombre}"/>
+                </h:column>
+                <h:column>
+                    <h:commandLink action="#{aerolineas.prepararEditar()}" value="#{etiquetas.accionEditar}"/>
+                </h:column>
+                <h:column>
+                    <h:commandLink action="#{aerolineas.borrar()}" value="#{etiquetas.accionBorrar}">
+                        <f:ajax render="@form"/>
+                    </h:commandLink>
+                </h:column>
+                <h:column>
+                    <h:commandLink action="/vistas/maestros/vuelos/Lista" value="#{etiquetas.aerolineasListaVerVuelos}" actionListener="#{vuelos.prepararLista(aerolinea.codAerolinea)}"/>                    
+                </h:column>
+            </h:dataTable>
+            <br/>
+            <h:link outcome="#{aerolineas.prepararCreacion()}" value="#{etiquetas.accionNuevo}"/>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

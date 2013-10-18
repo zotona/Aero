@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="./../../WEB-INF/plantillas/operaciones.xhtml">
+
+    <ui:define name="cabecera">
+        #{etiquetas.operacionRegistrarCabecera}
+    </ui:define>
+
+    <ui:define name="cuerpo">
+        <h:form>
+            <script type="text/javascript" src="#{request.contextPath}/resources/js/jquery-ui-setup.js"/>
+            <h:panelGroup id="mensajes" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:panelGroup id="elementos" layout="block">
+                <h:outputText value="#{etiquetas.operacionRegistrarAerolinea}: "/>
+                <h:selectOneMenu id="codAerolinea" value="#{registroOperacion.codAerolinea}" required="true" requiredMessage="#{etiquetas.operacionRegistrarCodAerolineaRequerido}">
+                    <f:selectItems value="#{registroOperacion.aerolineas}" var="itemAerolinea" itemValue="#{itemAerolinea.value}" itemLabel="#{itemAerolinea.label}" itemDescription="#{itemAerolinea.description}" />
+                    <f:ajax render="codVuelo" execute="codAerolinea esSalida"/>
+                </h:selectOneMenu><br/>
+                <h:selectOneRadio id="esSalida" value="#{registroOperacion.esSalida}">
+                    <f:selectItem id="llegada" itemValue="false" itemLabel="#{etiquetas.vueloLlegada}" itemDescription="#{etiquetas.vueloSalida}"/>
+                    <f:selectItem id="salida" itemValue="true" itemLabel="#{etiquetas.vueloSalida}" itemDescription="#{etiquetas.vueloSalida}"/>
+                    <f:ajax render="etiquetaVuelo codVuelo" execute="codAerolinea esSalida"/>
+                </h:selectOneRadio><br/>
+                <h:outputText id="etiquetaVuelo" value="#{registroOperacion.esSalida ? etiquetas.operacionRegistrarVuelosDeSalida : etiquetas.operacionRegistrarVuelosDeEntrada}: "/>
+                <h:selectOneMenu id="codVuelo" value="#{registroOperacion.codVuelo}" disabled="#{!registroOperacion.esListaVuelosHabilitada}" required="true" requiredMessage="#{etiquetas.operacionRegistrarCodVueloRequerido}">
+                    <f:selectItems value="#{registroOperacion.vuelos}" var="itemVuelo" itemValue="#{itemVuelo.value}" itemLabel="#{itemVuelo.label}" itemDescription="#{itemVuelo.description}"/>                        
+                    <f:ajax render="fOperacion" execute="codVuelo"/>
+                </h:selectOneMenu><br/>
+                <h:outputText value="#{etiquetas.operacionRegistrarFOperacion}: "/>
+                <h:inputText id="fOperacion" value="#{registroOperacion.operacionActual.FOperacion}" title="#{etiquetas.operacionRegistrarFOperacion}" label="#{etiquetas.operacionRegistrarFOperacion}" class="date">
+                    <f:convertDateTime type="both" dateStyle="short" timeStyle="short"/>                    
+                </h:inputText><br/>
+                <h:outputText value="#{etiquetas.operacionRegistrarNumPasajeros}: "/>
+                <h:inputText id="numPasajeros" value="#{registroOperacion.operacionActual.numPasajeros}" title="#{etiquetas.operacionRegistrarNumPasajeros}" label="#{etiquetas.operacionRegistrarNumPasajeros}" size="3"/><br/>
+                <h:commandButton action="#{registroOperacion.registrar()}" value="#{etiquetas.accionRegistrar}">
+                    <f:ajax render="@form" execute="codAerolinea codVuelo fOperacion numPasajeros"/>                    
+                </h:commandButton><br/>                
+            </h:panelGroup>
+            <h:panelGroup id="ultimasOperaciones" layout="block" rendered="#{registroOperacion.ultimasOperaciones.rowCount > 0}">
+                <br/>
+                <h2>#{etiquetas.operacionRegistrarUltimasOperacionesTitulo}</h2>
+                <h:dataTable value="#{registroOperacion.ultimasOperaciones}" var="operacion">
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{etiquetas.operacionRegistrarFOperacion}"/>
+                        </f:facet>
+                        <h:outputText value="#{operacion.fOperacion}">
+                            <f:convertDateTime type="both" dateStyle="short" timeStyle="short"/>
+                        </h:outputText>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{etiquetas.operacionRegistrarUltimasOperacionesVuelo}"/>
+                        </f:facet>
+                        <h:outputText value="#{operacion.vuelo}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{etiquetas.operacionRegistrarNumPasajeros}"/>
+                        </f:facet>
+                        <h:outputText value="#{operacion.numPasajeros}"/>
+                    </h:column>
+                </h:dataTable><br/>
+                <h:link outcome="Lista" value="#{etiquetas.accionListado}"/>
+            </h:panelGroup>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

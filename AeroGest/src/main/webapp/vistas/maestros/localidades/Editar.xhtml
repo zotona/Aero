@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="./../../../WEB-INF/plantillas/maestros.xhtml">
+
+    <ui:define name="cabecera">
+        #{etiquetas.localidadesEditarCabecera}
+    </ui:define>
+
+    <ui:define name="cuerpo">
+        <h:form>
+            <h:panelGroup id="mensajes" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:panelGroup id="elementos" layout="block">
+                <h:outputText value="#{etiquetas.localidadesListaPais}: "/>
+                <h:selectOneMenu id="codISOPais" value="#{localidades.codISOPais}">
+                    <f:selectItems value="#{localidades.paises}" var="item" itemValue="#{item.codISOPais}" itemLabel="#{item.nombre}" itemDescription="#{item.nombre}" />
+                </h:selectOneMenu><br/>
+                <h:outputLabel value="#{etiquetas.localidadCodISO}: " for="codISOLocalidad"/>
+                <h:outputText  id="codISOLocalidad" value="#{localidades.localidadActual.codISOLocalidad}" title="#{etiquetas.localidadCodISO}"/><br/>
+                <h:outputLabel value="#{etiquetas.localidadNombre}: " for="nombre"/>
+                <h:inputText id="nombre" value="#{localidades.localidadActual.nombre}" title="#{etiquetas.localidadNombre}" label="#{etiquetas.localidadNombre}"/><br/><br/>                
+                <h:commandButton action="#{localidades.actualizar()}" value="#{etiquetas.accionActualizar}"/>
+            </h:panelGroup>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

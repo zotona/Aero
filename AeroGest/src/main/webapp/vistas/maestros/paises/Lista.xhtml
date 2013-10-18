@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 template="./../../../WEB-INF/plantillas/maestros.xhtml">
+
+    <ui:define name="cabecera">
+        #{etiquetas.paisesListaCabecera}
+    </ui:define>
+
+    <ui:define name="cuerpo">
+        <h:form>
+            <h:panelGroup id="mensajes" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:outputText value="#{etiquetas.filtro}: "/>
+            <h:inputText id="filtro" value="#{paises.filtro}" title="#{etiquetas.paisesListaFiltroAyuda}" required="true" requiredMessage="#{etiquetas.filtroObligatorio}"/>
+            <h:commandButton action="#{paises.filtrar()}" value="#{etiquetas.accionFiltrar}">
+                <f:ajax render="@form" execute="filtro"/>
+            </h:commandButton><br/>
+            <h:outputText value="#{etiquetas.sinDatosParaFiltro}" rendered="#{paises.paises.rowCount == 0}"/>
+            <h:dataTable value="#{paises.paises}" var="pais" rendered="#{paises.paises.rowCount > 0}">
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{etiquetas.paisCodISO}"/>
+                    </f:facet>
+                    <h:outputText value="#{pais.codISOPais}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{etiquetas.paisNombre}"/>
+                    </f:facet>
+                    <h:outputText value="#{pais.nombre}"/>
+                </h:column>
+                <h:column>
+                    <h:commandLink action="#{paises.prepararEditar()}" value="#{etiquetas.accionEditar}"/>
+                </h:column>
+                <h:column>
+                    <h:commandLink action="#{paises.borrar()}" value="#{etiquetas.accionBorrar}">
+                        <f:ajax render="@form"/>
+                    </h:commandLink>
+                </h:column>
+                <h:column>
+                    <h:commandLink action="/vistas/maestros/localidades/Lista" value="#{etiquetas.paisesListaVerLocalidades}" actionListener="#{localidades.prepararLista(pais.codISOPais)}"/>                    
+                </h:column>
+            </h:dataTable>
+            <br/>
+            <h:link outcome="#{paises.prepararCreacion()}" value="#{etiquetas.accionNuevo}"/>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

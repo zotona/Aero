@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="./../../../WEB-INF/plantillas/maestros.xhtml">
+
+    <ui:define name="cabecera">
+        #{etiquetas.paisesCrearCabecera}
+    </ui:define>
+
+    <ui:define name="cuerpo">
+        <h:form>
+            <h:panelGroup id="mensajes" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:panelGroup id="elementos" layout="block">
+                <h:outputLabel value="#{etiquetas.paisCodISO}: " for="codISOPais"/>
+                <h:inputText id="codISOPais" value="#{paises.paisActual.codISOPais}" title="#{etiquetas.paisCodISOAyuda}" label="#{etiquetas.paisCodISO}"/><br/>
+                <h:outputLabel value="#{etiquetas.paisNombre}: " for="nombre"/>
+                <h:inputText id="nombre" value="#{paises.paisActual.nombre}" title="#{etiquetas.paisNombre}" label="#{etiquetas.paisNombre}"/><br/><br/>                
+                <h:commandButton action="#{paises.crear()}" value="#{etiquetas.accionGuardar}"/>
+            </h:panelGroup>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

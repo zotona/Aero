@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                template="./../../../WEB-INF/plantillas/maestros.xhtml">
+
+    <ui:define name="cabecera">
+        #{etiquetas.vuelosCrearCabecera}
+    </ui:define>
+
+    <ui:define name="cuerpo">
+        <h:form>
+            <h:panelGroup id="mensajes" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:panelGroup id="elementos" layout="block">
+                <h:outputLabel value="#{etiquetas.vueloCodVuelo}: " for="codVuelo"/>
+                <h:inputText id="codVuelo" value="#{vuelos.vueloActual.codVuelo}" title="#{etiquetas.vueloCodVuelo}" label="#{etiquetas.vueloCodVuelo}"/><br/>
+                <h:outputText value="#{etiquetas.vueloAerolinea}: "/>                
+                <h:selectOneMenu id="codAerolinea" value="#{vuelos.codAerolinea}">
+                    <f:selectItems value="#{vuelos.aerolineas}" var="itemAerolinea" itemValue="#{itemAerolinea.codAerolinea}" itemLabel="#{itemAerolinea.nombre}" itemDescription="#{itemAerolinea.nombre}" />
+                </h:selectOneMenu><br/>
+                <h:selectOneRadio id="esSalida" value="#{vuelos.vueloActual.esSalida}">
+                    <f:selectItem id="llegada" itemValue="false" itemLabel="#{etiquetas.vueloLlegada}" itemDescription="#{etiquetas.vueloSalida}"/>
+                    <f:selectItem id="salida" itemValue="true" itemLabel="#{etiquetas.vueloSalida}" itemDescription="#{etiquetas.vueloSalida}"/>
+                    <f:ajax render="etiquetaLocalidad" execute="esSalida"/>
+                </h:selectOneRadio><br/>
+                <h:outputText id="etiquetaLocalidad" value="#{vuelos.vueloActual.esSalida ? etiquetas.vueloDestino : etiquetas.vueloOrigen}: "/>
+                <h:selectOneMenu id="codISOLocalidad" value="#{vuelos.codISOLocalidad}">
+                    <f:selectItems value="#{vuelos.localidades}" var="itemLocalidad" itemValue="#{itemLocalidad.codISOLocalidad}" itemLabel="#{itemLocalidad.nombre}" itemDescription="#{itemLocalidad.nombre}" />
+                </h:selectOneMenu><br/>
+                <h:outputText value="#{etiquetas.vueloHora}: "/>
+                <h:selectOneMenu id="hora" value="#{vuelos.hora}">
+                    <f:selectItems value="#{vuelos.horas}" var="itemHora" itemValue="#{itemHora}" itemLabel="#{itemHora}" itemDescription="#{itemHora}" />
+                </h:selectOneMenu><h:outputText value="#{etiquetas.vueloHora}: "/>
+                <h:selectOneMenu id="minuto" value="#{vuelos.minuto}">
+                    <f:selectItems value="#{vuelos.minutos}" var="itemMinuto" itemValue="#{itemMinuto}" itemLabel="#{itemMinuto}" itemDescription="#{itemMinuto}" />
+                </h:selectOneMenu><br/>
+                <h:commandButton action="#{vuelos.crear()}" value="#{etiquetas.accionGuardar}"/>
+            </h:panelGroup>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

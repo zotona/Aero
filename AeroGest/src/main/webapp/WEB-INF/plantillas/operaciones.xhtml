@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <!-- No he utilizado h:outputStylesheet porque no se aplicaban correctamente los ficheros css. No he encontrado el motivo. -->
+        <link href="#{request.contextPath}/resources/css/style.css" rel="stylesheet" type="text/css" />
+        <link href="#{request.contextPath}/resources/css/theme.css" rel="stylesheet" type="text/css" />
+        <link href="#{request.contextPath}/resources/css/jquery-ui-1.10.3.custom.css" rel="stylesheet" type="text/css" />
+        <link href="#{request.contextPath}/resources/css/jquery-ui-timepicker-addon.css" rel="stylesheet" type="text/css" />
+        <!-- Tampoco ha funcionado bien h:outputScript -->
+        <script type="text/javascript" src="#{request.contextPath}/resources/js/jquery-1.9.1.js"/>
+        <script type="text/javascript" src="#{request.contextPath}/resources/js/jquery-ui-1.10.3.custom.js"/>
+        <script type="text/javascript" src="#{request.contextPath}/resources/js/jquery-ui-timepicker-addon.js"/>
+        <title>#{etiquetas.aplicacionTitulo}</title>
+    </h:head>
+
+    <h:body>
+        
+        <div id="container">
+            <div id="header">
+                <h2>#{etiquetas.aplicacionTitulo}</h2>
+                <div id="topmenu">
+                    <ul>
+                        <li><h:link outcome="/vistas/index" value="#{etiquetas.menuInicio}"/></li>
+                        <li><h:link outcome="/vistas/operaciones/Registrar" value="#{etiquetas.menuOperaciones}"/></li>
+                        <li><h:link outcome="/vistas/maestros/aerolineas/Lista" value="#{etiquetas.menuAerolineas}"/></li>
+                        <li><h:link outcome="/vistas/maestros/vuelos/Lista" value="#{etiquetas.menuVuelos}"/></li>
+                        <li><h:link outcome="/vistas/maestros/paises/Lista" value="#{etiquetas.menuPaises}"/></li>
+                        <li><h:link outcome="/vistas/maestros/localidades/Lista" value="#{etiquetas.menuLocalidades}"/></li>
+                    </ul>
+                </div>
+            </div>               
+            <div id="wrapper">
+                <div id="content">
+                    <script src="#{request.contextPath}/resources/js/ajaxloader.js" type="text/javascript"/>
+                    <h2><ui:insert name="cabecera">Cabecera</ui:insert></h2>
+                    <div id="box">  
+                        <ui:insert name="cuerpo">Cuerpo</ui:insert>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </h:body>
+
+</html>

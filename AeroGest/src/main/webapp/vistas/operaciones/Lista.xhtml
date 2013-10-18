@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 template="./../../WEB-INF/plantillas/operaciones.xhtml">
+
+    <ui:define name="cabecera">
+        #{etiquetas.operacionesCabecera}
+    </ui:define>
+
+    <ui:define name="cuerpo">
+        <h:form>
+            <script type="text/javascript" src="#{request.contextPath}/resources/js/jquery-ui-setup.js"/>
+            <h:panelGroup id="mensajes" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:outputText value="#{etiquetas.operacionesFInicio}: "/>
+            <h:inputText id="fInicio" value="#{operaciones.FInicio}" title="#{etiquetas.operacionesFInicio}" label="#{etiquetas.operacionesFInicio}" class="date" required="true" requiredMessage="#{etiquetas.operacionesFInicioObligatoria}">
+                <f:convertDateTime type="both" dateStyle="short" timeStyle="short"/>                    
+            </h:inputText>
+            <h:outputText value=" #{etiquetas.operacionesFFin}: "/>
+            <h:inputText id="fFin" value="#{operaciones.FFin}" title="#{etiquetas.operacionesFFin}" label="#{etiquetas.operacionesFFin}" class="date" required="true" requiredMessage="#{etiquetas.operacionesFFinObligatoria}">
+                <f:convertDateTime type="both" dateStyle="short" timeStyle="short"/>                    
+            </h:inputText>
+            <h:commandButton action="#{operaciones.filtrar()}" value="#{etiquetas.accionFiltrar}">
+                <f:ajax render="@form" execute="fInicio fFin"/>
+            </h:commandButton><br/>            
+            <h:outputText value="#{etiquetas.sinDatosParaFiltro}" rendered="#{operaciones.operaciones.rowCount == 0}"/>
+            <h:dataTable value="#{operaciones.operaciones}" var="operacion"  rendered="#{operaciones.operaciones.rowCount > 0}">
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{etiquetas.operacionesFOperacion}"/>
+                        </f:facet>
+                        <h:outputText value="#{operacion.fOperacion}">
+                            <f:convertDateTime type="both" dateStyle="short" timeStyle="short"/>
+                        </h:outputText>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{etiquetas.operacionesVuelo}"/>
+                        </f:facet>
+                        <h:outputText value="#{operacion.vuelo}"/>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{etiquetas.operacionesNumPasajeros}"/>
+                        </f:facet>
+                        <h:outputText value="#{operacion.numPasajeros}"/>
+                    </h:column>
+                </h:dataTable>
+            <br/>
+            <h:link outcome="#{registroOperacion.prepararRegistro()}" value="#{etiquetas.accionRegistrar}"/>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

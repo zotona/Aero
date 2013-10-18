@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Usa la fuente de datos por defecto de un servidor de aplicaciones GlassFish,
+    que ataca a una base de datos Derby.
+    
+    Para que funcione correctamente el proyecto hay que cambiar la configuración
+    de la fuente de manera que pueda utilizar transacciones distribuidas XA.
+    
+    Hay que tener en cuenta GlassFish tiene por defecto en su instalación las 
+    librerías eclipselink.
+-->
+<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+  <persistence-unit name="AeroGestPU" transaction-type="JTA">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <jta-data-source>jdbc/Aero</jta-data-source>
+    <properties>
+      <property name="eclipselink.ddl-generation" value="create-tables"/>
+    </properties>
+  </persistence-unit>
+</persistence>

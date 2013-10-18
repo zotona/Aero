@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 template="./../../WEB-INF/plantillas/general.xhtml">
+
+    <ui:define name="cabecera">
+        #{etiquetas.facturacionListaCabecera}
+    </ui:define>
+
+    <ui:define name="cuerpo">
+        <h:form>
+            <script type="text/javascript" src="#{request.contextPath}/resources/js/jquery-ui-setup.js"/>
+            <h:panelGroup id="mensajes" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:outputText value="#{etiquetas.facturacionFInicio}: "/>
+            <h:inputText id="fInicio" value="#{facturacion.FInicio}" title="#{etiquetas.facturacionFInicio}" label="#{etiquetas.facturacionFInicio}" class="date" required="true" requiredMessage="#{etiquetas.facturacionFInicioObligatoria}">
+                <f:convertDateTime type="date" dateStyle="short"/>                    
+            </h:inputText>
+            <h:outputText value=" #{etiquetas.facturacionFFin}: "/>
+            <h:inputText id="fFin" value="#{facturacion.FFin}" title="#{etiquetas.facturacionFFin}" label="#{etiquetas.facturacionFFin}" class="date" required="true" requiredMessage="#{etiquetas.facturacionFFinObligatoria}">
+                <f:convertDateTime type="date" dateStyle="short"/>                    
+            </h:inputText>
+            <h:commandButton action="#{facturacion.filtrar()}" value="#{etiquetas.accionFiltrar}">
+                <f:ajax render="@form" execute="fInicio fFin"/>
+            </h:commandButton><br/>            
+            <h:outputText value="#{etiquetas.sinDatosParaFiltro}" rendered="#{facturacion.facturas.rowCount == 0}"/>
+            <h:dataTable value="#{facturacion.facturas}" var="factura"  rendered="#{facturacion.facturas.rowCount > 0}">                    
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{etiquetas.facturaNumFactura}"/>
+                    </f:facet>
+                    <h:outputText value="#{factura.numFactura}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{etiquetas.facturaFFactura}"/>
+                    </f:facet>
+                    <h:outputText value="#{factura.fFactura}">
+                        <f:convertDateTime type="date" dateStyle="short"/>
+                    </h:outputText>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{etiquetas.facturaCliente}"/>
+                    </f:facet>
+                    <h:outputText value="#{factura.cliente.nombre}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{etiquetas.facturaReferencia}"/>
+                    </f:facet>
+                    <h:outputText value="#{factura.referencia}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{etiquetas.facturaImporte}"/>
+                    </f:facet>
+                    <h:outputText value="#{factura.importeTotal}">
+                        <f:convertNumber type="currency" />
+                    </h:outputText>
+                </h:column>
+                <h:column>
+                    <h:link outcome="factura" value="#{etiquetas.facturacionVerFactura}" target="_blank">
+                        <f:param name="numero" value="#{factura.numFactura}"/>
+                    </h:link>
+                </h:column>
+            </h:dataTable>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

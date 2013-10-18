@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 template="./../../WEB-INF/plantillas/general.xhtml">
+
+    <ui:define name="cabecera">
+        #{etiquetas.estadisticasListadoCabecera}
+    </ui:define>
+
+    <ui:define name="cuerpo">
+        <h:form>
+            <h:panelGroup id="mensajes" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:outputText value="#{etiquetas.listadoAnyo}: "/>
+            <h:selectOneMenu id="anyo" value="#{estadistica.anyo}" required="true" requiredMessage="#{etiquetas.listadoAnyoRequerido}">
+                <f:selectItems value="#{estadistica.anyos}" var="itemAnyo" itemValue="#{itemAnyo.anyo}" itemLabel="#{itemAnyo.anyo}" itemDescription="#{itemAnyo.anyo}" />
+            </h:selectOneMenu>
+            <h:commandButton action="#{estadistica.refrescar()}" value="#{etiquetas.accionRefrescar}">
+                <f:ajax render="@form" execute="anyo"/>
+            </h:commandButton><br/> 
+            <h:outputText value="#{etiquetas.sinDatosParaAnyo}" rendered="#{estadistica.listado.rowCount == 0}"/>
+            <h:dataTable value="#{estadistica.listado}" var="lineaEstadistica"  rendered="#{estadistica.listado.rowCount > 0}">                    
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{etiquetas.listadoMes}"/>
+                    </f:facet>
+                    <h:outputText value="#{lineaEstadistica.mes}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{etiquetas.listadoAerolinea}"/>
+                    </f:facet>
+                    <h:outputText value="#{lineaEstadistica.aerolinea}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{etiquetas.listadoTipoOperacion}"/>
+                    </f:facet>
+                    <h:outputText value="#{lineaEstadistica.tipoOperacion}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{etiquetas.listadoPais}"/>
+                    </f:facet>
+                    <h:outputText value="#{lineaEstadistica.pais}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{etiquetas.listadoNumPasajeros}"/>
+                    </f:facet>
+                    <h:outputText value="#{lineaEstadistica.numPasajeros}">
+                        <f:convertNumber />
+                    </h:outputText>
+                </h:column>
+            </h:dataTable>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

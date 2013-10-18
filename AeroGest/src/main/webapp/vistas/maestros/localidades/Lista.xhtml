@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition  xmlns="http://www.w3.org/1999/xhtml"
+                 xmlns:ui="http://java.sun.com/jsf/facelets"
+                 xmlns:h="http://java.sun.com/jsf/html"
+                 xmlns:f="http://java.sun.com/jsf/core"
+                 template="./../../../WEB-INF/plantillas/maestros.xhtml">
+
+    <ui:define name="cabecera">
+        #{etiquetas.localidadesListaCabecera}
+    </ui:define>
+
+    <ui:define name="cuerpo">
+        <h:form>
+            <h:panelGroup id="mensajes" layout="block">
+                <h:messages errorStyle="color: red" infoStyle="color: green" layout="table"/>
+            </h:panelGroup>
+            <h:outputText value="#{etiquetas.localidadesListaPais}: "/>
+            <h:selectOneMenu id="codISOPais" value="#{localidades.codISOPais}">
+                <f:selectItems value="#{localidades.paises}" var="item" itemValue="#{item.codISOPais}" itemLabel="#{item.nombre}" itemDescription="#{item.nombre}" />
+            </h:selectOneMenu><br/>
+            <h:outputText value="#{etiquetas.filtro}: "/>
+            <h:inputText id="filtro" value="#{localidades.filtro}" title="#{etiquetas.localidadesListaFiltroAyuda}" required="true" requiredMessage="#{etiquetas.filtroObligatorio}"/>
+            <h:commandButton action="#{localidades.filtrar()}" value="#{etiquetas.accionFiltrar}">
+                <f:ajax render="@form" execute="codISOPais filtro"/>
+            </h:commandButton><br/>
+            <h:outputText value="#{etiquetas.sinDatosParaFiltro}" rendered="#{localidades.localidades.rowCount == 0}"/>
+            <h:dataTable value="#{localidades.localidades}" var="localidad" rendered="#{localidades.localidades.rowCount > 0}">
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{etiquetas.localidadCodISO}"/>
+                    </f:facet>
+                    <h:outputText value="#{localidad.codISOLocalidad}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{etiquetas.localidadNombre}"/>
+                    </f:facet>
+                    <h:outputText value="#{localidad.nombre}"/>
+                </h:column>
+                <h:column>
+                    <h:commandLink action="#{localidades.prepararEditar()}" value="#{etiquetas.accionEditar}"/>
+                </h:column>
+                <h:column>
+                    <h:commandLink action="#{localidades.borrar()}" value="#{etiquetas.accionBorrar}">
+                        <f:ajax render="@form"/>
+                    </h:commandLink>
+                </h:column>
+            </h:dataTable>
+            <br/>
+            <h:link outcome="#{localidades.prepararCreacion()}" value="#{etiquetas.accionNuevo}"/>
+        </h:form>
+    </ui:define>
+
+</ui:composition>
