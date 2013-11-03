@@ -232,7 +232,7 @@ thead{
 		Home
 *********************/
 #infowrap li{
-	display:inline:
+	display:inline;
 }
 #infobox{
 	width:365px;
