@@ -31,7 +31,7 @@ public class Localidades extends BeanAbstracto implements Serializable {
     private GestorLocalidades gestorLocalidades;
     
     private Localidad localidadActual;
-    private DataModel localidades;
+    private DataModel<Localidad> localidades;
     private String codISOPais, filtro;
 
     public Localidades() {
@@ -54,7 +54,7 @@ public class Localidades extends BeanAbstracto implements Serializable {
         return localidadActual;
     }
 
-    public DataModel getLocalidades() {
+    public DataModel<Localidad> getLocalidades() {
         return localidades;
     }
 
@@ -126,7 +126,7 @@ public class Localidades extends BeanAbstracto implements Serializable {
     }
 
     public String prepararEditar() {
-        localidadActual = (Localidad) getLocalidades().getRowData();
+        localidadActual = getLocalidades().getRowData();
 
         return "Editar";
     }
@@ -149,7 +149,7 @@ public class Localidades extends BeanAbstracto implements Serializable {
 
     public String borrar() {
         try {
-            localidadActual = (Localidad) getLocalidades().getRowData();
+            localidadActual = getLocalidades().getRowData();
             getGestorLocalidades().borrar(localidadActual);
             refrescarLocalidades();
 
@@ -164,6 +164,6 @@ public class Localidades extends BeanAbstracto implements Serializable {
     }
 
     private void refrescarLocalidades() {
-        localidades = new ListDataModel(getGestorLocalidades().filtrarPorPaisYNombre(codISOPais, filtro.toUpperCase()));
+        localidades = new ListDataModel<Localidad>(getGestorLocalidades().filtrarPorPaisYNombre(codISOPais, filtro.toUpperCase()));
     }
 }

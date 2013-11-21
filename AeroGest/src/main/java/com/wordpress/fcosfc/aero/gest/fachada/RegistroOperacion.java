@@ -43,7 +43,7 @@ public class RegistroOperacion extends BeanAbstracto implements Serializable {
     private Operacion operacionActual;
     private String codAerolinea, codVuelo;
     private boolean esSalida, esListaVuelosHabilitada;
-    private DataModel ultimasOperaciones;
+    private DataModel<OperacionAerea> ultimasOperaciones;
 
     public RegistroOperacion() {
         super();
@@ -223,6 +223,6 @@ public class RegistroOperacion extends BeanAbstracto implements Serializable {
         codVuelo = null;
         esSalida = false;
         esListaVuelosHabilitada = false;
-        ultimasOperaciones = new ListDataModel(OperacionAerea.getOperacionesAereas(getGestorRegistroOperacion().getUltimasOperaciones()));
+        ultimasOperaciones = new ListDataModel<OperacionAerea>(OperacionAerea.getOperacionesAereas(getGestorRegistroOperacion().getUltimasOperaciones()));
     }
 }

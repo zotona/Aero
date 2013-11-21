@@ -30,7 +30,7 @@ public class Paises extends BeanAbstracto implements Serializable {
     private GestorPaises gestorPaises;
     
     private Pais paisActual;
-    private DataModel paises;
+    private DataModel<Pais> paises;
     private String filtro;
 
     public Paises() {
@@ -66,7 +66,7 @@ public class Paises extends BeanAbstracto implements Serializable {
         return paisActual;
     }
 
-    public DataModel getPaises() {
+    public DataModel<Pais> getPaises() {
         return paises;
     }
 
@@ -114,7 +114,7 @@ public class Paises extends BeanAbstracto implements Serializable {
     }
 
     public String prepararEditar() {
-        paisActual = (Pais) getPaises().getRowData();
+        paisActual = getPaises().getRowData();
 
         return "Editar";
     }
@@ -136,7 +136,7 @@ public class Paises extends BeanAbstracto implements Serializable {
 
     public String borrar() {
         try {
-            paisActual = (Pais) getPaises().getRowData();
+            paisActual = getPaises().getRowData();
             getGestorPaises().borrar(paisActual);
             refrescarPaises();
 
@@ -151,6 +151,6 @@ public class Paises extends BeanAbstracto implements Serializable {
     }
 
     protected void refrescarPaises() {
-        paises = new ListDataModel(getGestorPaises().filtrarPorNombre(filtro.toUpperCase()));
+        paises = new ListDataModel<Pais>(getGestorPaises().filtrarPorNombre(filtro.toUpperCase()));
     }
 }

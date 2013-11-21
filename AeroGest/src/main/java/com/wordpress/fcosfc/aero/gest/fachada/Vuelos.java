@@ -37,7 +37,7 @@ public class Vuelos extends BeanAbstracto implements Serializable {
     private GestorVuelos gestorVuelos;
     
     private Vuelo vueloActual;
-    private DataModel vuelos;
+    private DataModel<Vuelo> vuelos;
     private String codAerolinea, codISOLocalidad, hora, minuto;
 
     public Vuelos() {
@@ -83,7 +83,7 @@ public class Vuelos extends BeanAbstracto implements Serializable {
         }
     }
 
-    public DataModel getVuelos() {
+    public DataModel<Vuelo> getVuelos() {
         return vuelos;
     }
 
@@ -261,7 +261,7 @@ public class Vuelos extends BeanAbstracto implements Serializable {
         String horaMinuto;
         StringTokenizer tokenizer;
 
-        vueloActual = (Vuelo) getVuelos().getRowData();
+        vueloActual = getVuelos().getRowData();
         codAerolinea = vueloActual.getAerolinea().getCodAerolinea();
         codISOLocalidad = vueloActual.getLocalidad().getCodISOLocalidad();
 
@@ -294,7 +294,7 @@ public class Vuelos extends BeanAbstracto implements Serializable {
 
     public String borrar() {
         try {
-            vueloActual = (Vuelo) getVuelos().getRowData();
+            vueloActual = getVuelos().getRowData();
             getGestorVuelos().borrar(vueloActual);
             refrescarVuelos();
 
@@ -309,7 +309,7 @@ public class Vuelos extends BeanAbstracto implements Serializable {
     }
 
     private void refrescarVuelos() {
-        vuelos = new ListDataModel(getGestorVuelos().filtrarPorAerolinea(codAerolinea));
+        vuelos = new ListDataModel<Vuelo>(getGestorVuelos().filtrarPorAerolinea(codAerolinea));
     }
 
     private Date getHoraVuelo(String hora, String minuto) {

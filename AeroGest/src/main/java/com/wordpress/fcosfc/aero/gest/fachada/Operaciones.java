@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.ConversationScoped;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.inject.Inject;
@@ -21,7 +21,7 @@ import javax.inject.Named;
  * @author fsaucedo
  */
 @Named
-@RequestScoped
+@ConversationScoped
 public class Operaciones extends BeanAbstracto implements Serializable {
 
     private static final Logger bitacora = Logger.getLogger(Operaciones.class.getName());
@@ -29,7 +29,7 @@ public class Operaciones extends BeanAbstracto implements Serializable {
     @Inject
     private GestorOperaciones gestorOperaciones;
     
-    private DataModel operaciones;
+    private DataModel<OperacionAerea> operaciones;
     private Date fInicio, fFin;
 
     public Operaciones() {

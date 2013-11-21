@@ -30,7 +30,7 @@ public class Aerolineas extends BeanAbstracto implements Serializable {
     private GestorAerolineas gestorAerolineas;
     
     private Aerolinea aerolineaActual;
-    private DataModel aerolineas;
+    private DataModel<Aerolinea> aerolineas;
     private String filtro;
 
     public Aerolineas() {
@@ -67,7 +67,7 @@ public class Aerolineas extends BeanAbstracto implements Serializable {
         return aerolineaActual;
     }
 
-    public DataModel getAerolineas() {
+    public DataModel<Aerolinea> getAerolineas() {
         return aerolineas;
     }
 
@@ -115,7 +115,7 @@ public class Aerolineas extends BeanAbstracto implements Serializable {
     }
 
     public String prepararEditar() {
-        aerolineaActual = (Aerolinea) getAerolineas().getRowData();
+        aerolineaActual = getAerolineas().getRowData();
 
         return "Editar";
     }
@@ -137,7 +137,7 @@ public class Aerolineas extends BeanAbstracto implements Serializable {
 
     public String borrar() {
         try {
-            aerolineaActual = (Aerolinea) getAerolineas().getRowData();
+            aerolineaActual = getAerolineas().getRowData();
             getGestorAerolineas().borrar(aerolineaActual);
             refrescarAerolineas();
 
@@ -152,6 +152,6 @@ public class Aerolineas extends BeanAbstracto implements Serializable {
     }
 
     private void refrescarAerolineas() {
-        aerolineas = new ListDataModel(getGestorAerolineas().filtrarPorNombre(filtro.toUpperCase()));
+        aerolineas = new ListDataModel<Aerolinea>(getGestorAerolineas().filtrarPorNombre(filtro.toUpperCase()));
     }
 }
