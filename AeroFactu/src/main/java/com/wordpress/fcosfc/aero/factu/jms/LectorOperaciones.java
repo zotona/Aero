@@ -25,9 +25,7 @@ import javax.jms.TextMessage;
             propertyValue = "javax.jms.Topic"),
     @ActivationConfigProperty(propertyName = "subscriptionDurability", propertyValue = "Durable"),
     @ActivationConfigProperty(propertyName = "clientId", propertyValue = "AeroFactu"),
-    @ActivationConfigProperty(propertyName = "subscriptionName", propertyValue = "AeroFactu"),
-    @ActivationConfigProperty(propertyName = "endpointExceptionRedeliveryAttempts", propertyValue = "3"),
-    @ActivationConfigProperty(propertyName = "endpointExceptionRedeliveryInterval", propertyValue = "10")})
+    @ActivationConfigProperty(propertyName = "subscriptionName", propertyValue = "AeroFactu")})
 public class LectorOperaciones extends BeanAbstracto implements MessageListener {
        
     private static final Logger bitacora = Logger.getLogger(LectorOperaciones.class.getName());

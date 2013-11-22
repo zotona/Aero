@@ -3,6 +3,7 @@ package com.wordpress.fcosfc.aero.factu.fachada;
 import com.wordpress.fcosfc.aero.bean.BeanAbstracto;
 import com.wordpress.fcosfc.aero.fachada.JsfUtil;
 import com.wordpress.fcosfc.aero.factu.control.GestorFacturacion;
+import com.wordpress.fcosfc.aero.factu.persistencia.Factura;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
@@ -10,7 +11,7 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.ConversationScoped;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.inject.Inject;
@@ -23,7 +24,7 @@ import org.apache.commons.lang.time.DateUtils;
  * @author fsaucedo
  */
 @Named
-@RequestScoped
+@ConversationScoped
 public class Facturacion extends BeanAbstracto implements Serializable {
        
     private static final Logger bitacora = Logger.getLogger(Facturacion.class.getName());
@@ -31,7 +32,7 @@ public class Facturacion extends BeanAbstracto implements Serializable {
     @Inject
     private GestorFacturacion gestorFacturacion;
     
-    private DataModel facturas;
+    private DataModel<Factura> facturas;
     private Date fInicio, fFin;
 
     public Facturacion() {
@@ -58,7 +59,7 @@ public class Facturacion extends BeanAbstracto implements Serializable {
         return gestorFacturacion;
     }
 
-    public DataModel getFacturas() {
+    public DataModel<Factura> getFacturas() {
         return facturas;
     }
 
@@ -92,7 +93,7 @@ public class Facturacion extends BeanAbstracto implements Serializable {
         try {
             fFin = DateUtils.addHours(fFin, 23);
             fFin = DateUtils.addMinutes(fFin, 59);
-            facturas = new ListDataModel(getGestorFacturacion().getFacturas(fInicio, fFin));
+            facturas = new ListDataModel<Factura>(getGestorFacturacion().getFacturas(fInicio, fFin));
         } catch (Exception ex) {
             JsfUtil.addErrorMessage(ex, ResourceBundle.getBundle("/com/wordpress/fcosfc/aero/factu/recursos/etiquetas").getString("errorAccesoADatosDetectado"));
             getBitacora().log(Level.SEVERE, null, ex);

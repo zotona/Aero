@@ -2,6 +2,7 @@ package com.wordpress.fcosfc.aero.estad.fachada;
 
 import com.wordpress.fcosfc.aero.bean.BeanAbstracto;
 import com.wordpress.fcosfc.aero.estad.control.GestorEstadisticas;
+import com.wordpress.fcosfc.aero.estad.fachada.util.LineaListadoEstadistica;
 import com.wordpress.fcosfc.aero.estad.persistencia.Anyo;
 import com.wordpress.fcosfc.aero.fachada.JsfUtil;
 import java.io.Serializable;
@@ -30,7 +31,7 @@ public class Estadistica extends BeanAbstracto implements Serializable {
     @Inject
     private GestorEstadisticas gestorEstadisticas;
     
-    private DataModel listado;
+    private DataModel<LineaListadoEstadistica> listado;
     private List<Anyo> anyos;
     private Integer anyo;
     
@@ -60,7 +61,7 @@ public class Estadistica extends BeanAbstracto implements Serializable {
         return gestorEstadisticas;
     }
 
-    public DataModel getListado() {
+    public DataModel<LineaListadoEstadistica> getListado() {
         return listado;
     }
 
@@ -87,7 +88,7 @@ public class Estadistica extends BeanAbstracto implements Serializable {
     public void refrescar() {
         try {
             if (anyo != null) {
-                listado = new ListDataModel(getGestorEstadisticas().getListado(anyo));
+                listado = new ListDataModel<LineaListadoEstadistica>(getGestorEstadisticas().getListado(anyo));
                 anyos = getGestorEstadisticas().getAnyos();
             }
         } catch (Exception ex) {
