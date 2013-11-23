@@ -25,6 +25,9 @@
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <jpa.provider>org.eclipse.persistence.jpa.PersistenceProvider</jpa.provider>
+        <jpa.ddlgeneration.name>eclipselink.ddl-generation</jpa.ddlgeneration.name>
+        <jpa.ddlgeneration.value>create-tables</jpa.ddlgeneration.value>
     </properties>
 
     <dependencies>
@@ -38,6 +41,12 @@
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -78,4 +87,14 @@
         <module>AeroEstad</module>
     </modules>
 
+    <profiles>
+        <profile>
+            <id>tomee</id>
+            <properties>
+                <jpa.provider>org.apache.openjpa.persistence.PersistenceProviderImpl</jpa.provider>
+                <jpa.ddlgeneration.name>openjpa.jdbc.SynchronizeMappings</jpa.ddlgeneration.name>
+                <jpa.ddlgeneration.value>buildSchema(ForeignKeys=true)</jpa.ddlgeneration.value>
+            </properties>           
+        </profile>
+    </profiles>
 </project>
