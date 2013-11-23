@@ -20,11 +20,11 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "AEROESTAD_OPERACIONES")
-@NamedQuery(name = "Operacion.FindByAnyo", query = "SELECT o.mes"
-                                                 + "     , o.aerolinea.nombre nombreAerolinea "
-                                                 + "     , o.pais.nombre nombrePais "
+@NamedQuery(name = "Operacion.FindByAnyo", query = "SELECT o.mes "
+                                                 + "     , o.aerolinea.nombre "
+                                                 + "     , o.pais.nombre "
                                                  + "     , o.esSalida "
-                                                 + "     , SUM(o.numPasajeros) numPax "
+                                                 + "     , SUM(o.numPasajeros) "
                                                  + "FROM Operacion o "
                                                  + "WHERE o.anyo = :anyo "
                                                  + "GROUP BY o.mes "
